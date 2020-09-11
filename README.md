@@ -15,3 +15,18 @@ Jekins plugins could be put under a folder \jenkins_home to be mapped to \var\je
 
 ## Jenkins pipeline
 
+There are 6 stages outlined in Jenkinsfile:
+
+![img](pipeline.png)
+
+1. Lint HTML - lint index.html that's copied to nginx container
+2. Build image - build docker image for nginx container
+3. Deploy image - deploy docker image to docker hub
+4. Apply blue deployment to AWS Load Balancer - deploy /deployment/blue.yml to eks cluster
+5. Apply green deployment to AWS Load Balancer - deploy /deployment/green.yml to eks cluster
+6. Remove blue deployment from AWS Load Balancer - remote /deployment/blue.yml from eks cluster
+
+
+
+
+
