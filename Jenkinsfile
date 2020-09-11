@@ -37,6 +37,7 @@ pipeline {
                     withAWS(credentials: 'aws-credentials', region: 'ap-southeast-2'){
                    sh "aws eks --region ap-southeast-2 update-kubeconfig --name capstone-eks"
                    sh 'kubectl apply -f deployment/blue.yml'
+                   sh 'kubectl get pods'
                   }
                }
             }
@@ -47,6 +48,7 @@ pipeline {
                script {
                    withAWS(credentials: 'aws-credentials', region: 'ap-southeast-2'){
                    sh 'kubectl apply -f deployment/green.yml'
+                   sh 'kubectl get pods'
                    }
                }
             }
@@ -57,6 +59,7 @@ pipeline {
                script {
                    withAWS(credentials: 'aws-credentials', region: 'ap-southeast-2'){
                    sh 'kubectl delete deployment green-deployment'
+                   sh 'kubectl get pods'
                    }
                }
             }

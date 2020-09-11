@@ -18,11 +18,23 @@ RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/late
     eksctl version
 
 # Install kubectl
-RUN curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/linux/amd64/kubectl &&\
+RUN curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
-    mv ./kubectl /usr/local/bin &&\
+    mv ./kubectl /usr/local/bin && \
     kubectl version --short --client
 
-USER jenkins
+# Install Docker
+RUN apt-get install -y \
+    lsb-release \
+    software-properties-common
+
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" && \
+    apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
+
+
+# Run Jekins and Docker
+COPY ./start_container.sh ./start_container.sh
+CMD [ "./start_container.sh" ]
 
 
